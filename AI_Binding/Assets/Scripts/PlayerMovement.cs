@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rigidbody;
 
     public GameObject bulletPrefab;
-    public float bulletSpeed;
+    [SerializeField] private float bulletSpeed;
     private float lastBullet;
     [SerializeField] private float bulletDelay;
     
@@ -51,5 +51,12 @@ public class PlayerMovement : MonoBehaviour
             (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed,
             (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed,
             0);
+    }
+
+    public Vector2 GetMovementDirection()
+    {
+        // Debido a que el Player usa un float para calcular la velocidad y el enemigo
+        // usa un Vector2, se ajusta mediante este método.
+        return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
     }
 }
