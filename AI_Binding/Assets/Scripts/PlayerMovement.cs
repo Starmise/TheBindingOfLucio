@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed; 
+    public float speed;
     Rigidbody2D rigidbody;
 
     public GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed;
     private float lastBullet;
     [SerializeField] private float bulletDelay;
-    
+
+    // Variables para cambiar los sprites
+    private SpriteRenderer spriteRenderer;
+    public Sprite spriteUp;
+    public Sprite spriteDown;
+    public Sprite spriteLeft;
+    public Sprite spriteRight;
+
     void Start()
-    { 
+    {
         rigidbody = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();  // Asignamos el SpriteRenderer
     }
 
     void Update()
-    { 
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -33,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rigidbody.velocity = new Vector3(horizontal * speed, vertical * speed, 0);
+
+        // Actualizar el sprite según la dirección del disparo o del movimiento
+        UpdateSpriteDirection(horizontal, vertical, shootHorizontal, shootVertical);
     }
 
     void Shooting(float x, float y)
@@ -42,21 +53,58 @@ public class PlayerMovement : MonoBehaviour
         bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
 
         // Asignamos la velocidad al Rigidbody2D del objeto "bullet".
-        bullet.GetComponent<Rigidbody2D>().velocity = new Vector3 (
-            // Se usa un operador ternario, que básicamente evalua un booleano con la
-            // siguiente estructura: condición ? valor_true : valor_false
-            // Si x es menor que 0, se redondea hacia abajo y asegura que el proyectil
-            // se mueva correctamente hacia la izquierda. Si no, se redondea hacia arriba,
-            // moviendo el proyectil hacia la derecha.
+        bullet.GetComponent<Rigidbody2D>().velocity = new Vector3(
             (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed,
             (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed,
             0);
     }
 
+    void UpdateSpriteDirection(float horizontal, float vertical, float shootHorizontal, float shootVertical)
+    {
+        // Priorizar el disparo para cambiar el sprite
+        if (shootHorizontal != 0 || shootVertical != 0)
+        {
+            if (shootHorizontal > 0)
+            {
+                spriteRenderer.sprite = spriteRight;
+            }
+            else if (shootHorizontal < 0)
+            {
+                spriteRenderer.sprite = spriteLeft;
+            }
+            else if (shootVertical > 0)
+            {
+                spriteRenderer.sprite = spriteUp;
+            }
+            else if (shootVertical < 0)
+            {
+                spriteRenderer.sprite = spriteDown;
+            }
+        }
+        // Si no dispara, cambiar según el movimiento
+        else
+        {
+            if (horizontal > 0)
+            {
+                spriteRenderer.sprite = spriteRight;
+            }
+            else if (horizontal < 0)
+            {
+                spriteRenderer.sprite = spriteLeft;
+            }
+            else if (vertical > 0)
+            {
+                spriteRenderer.sprite = spriteUp;
+            }
+            else if (vertical < 0)
+            {
+                spriteRenderer.sprite = spriteDown;
+            }
+        }
+    }
+
     public Vector2 GetMovementDirection()
     {
-        // Debido a que el Player usa un float para calcular la velocidad y el enemigo
-        // usa un Vector2, se ajusta mediante este método.
         return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
     }
 }

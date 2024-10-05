@@ -1548,6 +1548,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 7050304570116771682, guid: b479f11525607f84092496a89bce8fe4, type: 3}
   bulletSpeed: 7
   bulletDelay: 0.4
+  spriteUp: {fileID: 987891935, guid: 85690244efa894743a3b65e9571baa83, type: 3}
+  spriteDown: {fileID: 1822303978, guid: 85690244efa894743a3b65e9571baa83, type: 3}
+  spriteLeft: {fileID: -596360854, guid: 85690244efa894743a3b65e9571baa83, type: 3}
+  spriteRight: {fileID: -720197957, guid: 85690244efa894743a3b65e9571baa83, type: 3}
 --- !u!50 &1369303667
 Rigidbody2D:
   serializedVersion: 4
