@@ -43,6 +43,7 @@ public class SteeringBehaviors : EnemyMovement
     [Header("Torret Enemy")]
     public float Range;
     private bool Detected = false;
+    public GameObject active;
     public GameObject Turret;
 
     void Start()
@@ -184,6 +185,8 @@ public class SteeringBehaviors : EnemyMovement
 
     void TurretEnemyLogic()
     {
+        active.SetActive(false);
+
         // Nuevamente PuntaMenosCola, pero cambiamos el nombre de la variable por su nuevo uso
         Vector2 directionToTarget = PuntaMenosCola(targetGameObject.transform.position, transform.position);
 
@@ -213,6 +216,7 @@ public class SteeringBehaviors : EnemyMovement
 
         if (Detected)
         {
+            active.SetActive(true);
             Turret.transform.up = directionToTarget; 
 
             if (Time.time > lastBullet + bulletDelay)
@@ -234,5 +238,14 @@ public class SteeringBehaviors : EnemyMovement
                 Destroy(gameObject);
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Establece el color del Gizmo
+        Gizmos.color = Color.red;
+
+        // Dibuja un círculo representando el rango de la torreta
+        Gizmos.DrawWireSphere(transform.position, Range);
     }
 }
