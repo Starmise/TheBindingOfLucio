@@ -16,8 +16,9 @@ public class EnemyMovement : MonoBehaviour
 
     protected float PursuitTimePrediction = 1.0f;
 
+    [SerializeField]
+    protected float ObstacleForceToApply = 1.0f;
     protected Vector2 ExternalForces = Vector2.zero;
-
     public void AddExternalForce(Vector2 ExternalForce)
     {
         ExternalForces += ExternalForce;
@@ -80,6 +81,26 @@ public class EnemyMovement : MonoBehaviour
 
         // Resetear las fuerzas externas al final para poder usarlas
         ExternalForces = Vector2.zero;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Obstacle"))
+        {
+            return;
+        }
+
+        Vector2 OriginToAgent = transform.position - other.transform.position;
+
+        float distance = OriginToAgent.magnitude;
+        SphereCollider collider = GetComponent<SphereCollider>();
+        if (collider == null)
+        {
+            return;
+        }
+        float obstacleColliderRadius = collider.radius; // * transform.lossyScale.y;
+        float calculatedForce = ObstacleForceToApply * (1.0f - distance / obstacleColliderRadius);
+        AddExternalForce(OriginToAgent.normalized * calculatedForce);
     }
 
     Vector2 PredictPosition(Vector2 InitialPosition, Vector2 Velocity, float TimePrediction)
