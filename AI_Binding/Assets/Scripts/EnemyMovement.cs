@@ -44,6 +44,7 @@ public class EnemyMovement : MonoBehaviour
     protected void Start()
     {
         Debug.Log("Se está ejecutando " + gameObject.name);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
     }
 
     void Update()
