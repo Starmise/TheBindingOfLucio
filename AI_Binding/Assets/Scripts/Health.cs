@@ -31,6 +31,23 @@ public class Health : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Projectile"))
+        {
+            health--;
+
+            if (health < 0)
+            {
+                health = 0;
+            }
+
+            UpdateHearts();
+
+        }
+    }
+
+
     // Actualiza el estado de los corazones en la UI
     void UpdateHearts()
     {
