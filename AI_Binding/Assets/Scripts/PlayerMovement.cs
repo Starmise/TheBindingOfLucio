@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();  // Asignamos el SpriteRenderer
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()

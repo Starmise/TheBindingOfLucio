@@ -21,19 +21,29 @@ public class SteeringBehaviors : EnemyMovement
     private bool isFleeing = false;
     private float fleeTime = 0.0f;
 
-    [SerializeField] private float timeToShoot = 3.0f;
-    [SerializeField] private float bulletSpeed = 3.0f;
+    private float timeToShoot = 3.0f;
+    private float bulletSpeed = 3.0f;
     private float lastBullet;
-    [SerializeField] private float bulletDelay = 0.2f;
-    [SerializeField] private GameObject bulletPrefab;
     private bool isShooting = false;
+    [Space(3)]
+    [Header("Bullet Values")]
+    [SerializeField] private float bulletDelay = 0.2f;
+    public GameObject bulletPrefab;
 
-    [SerializeField] private bool playerInRoom = false;
+    private bool playerInRoom = false;
     private float timeInRoom = 0.0f;
+    [Space(3)]
+    [Header("Room Bounds")]
     // Coordenadas inferior izquierda, y superior derecha del cuarto. De esta forma
     // podemos comparar las 4 coordenanas con solo dos variables.
     public Vector2 roomMinBounds;
     public Vector2 roomMaxBounds;
+
+    [Space(3)]
+    [Header("Torret Enemy")]
+    public float Range;
+    private bool Detected = false;
+    public GameObject Turret;
 
     void Start()
     {
@@ -73,14 +83,14 @@ public class SteeringBehaviors : EnemyMovement
                 HeavyEnemyLogic();
                 break;
             case EnemyType.Torret:
-                //TorretEnemyLogic();
+                TurretEnemyLogic();
                 break;
             default:
                 Debug.LogError("No se ha definido este tipo de enemigo.");
                 break;
         }
 
-        Debug.Log("Velocidad del enemigo: " + rb.velocity.magnitude);
+        //Debug.Log("Velocidad del enemigo: " + rb.velocity.magnitude);
     }
 
     void FleeEnemyLogic()
@@ -115,7 +125,7 @@ public class SteeringBehaviors : EnemyMovement
 
             if (Time.time > lastBullet + bulletDelay)
             {
-                isShooting = true;  // Marca que está disparando
+                isShooting = true;
                 Shooting(-PosToTarget.x, -PosToTarget.y);
                 lastBullet = Time.time;
 
@@ -168,6 +178,42 @@ public class SteeringBehaviors : EnemyMovement
             if (rb.velocity.magnitude <= 0.5f)
             {
                 rb.velocity = Vector2.zero;
+            }
+        }
+    }
+
+    void TurretEnemyLogic()
+    {
+        // Nuevamente PuntaMenosCola, pero cambiamos el nombre de la variable por su nuevo uso
+        Vector2 directionToTarget = PuntaMenosCola(targetGameObject.transform.position, transform.position);
+
+        // Raycast (y su trazado/dibujo) hacia la dirección hacia el jugador
+        RaycastHit2D rayInfo = Physics2D.Raycast(transform.position, directionToTarget, Range);
+        Debug.DrawRay(transform.position, directionToTarget * Range, Color.red);
+
+        // Comprobar si el raycast ha detectado al jugador
+        if (rayInfo.collider != null)
+        {
+            //Debug.Log("Detectó un objeto: " + rayInfo.collider.gameObject.name);
+
+            if (rayInfo.collider.CompareTag("Player"))
+            {
+                Detected = true;
+            }
+            else
+            {
+                Detected = false;
+            }
+        }
+
+        if (Detected)
+        {
+            Turret.transform.up = directionToTarget; 
+
+            if (Time.time > lastBullet + bulletDelay)
+            {
+                Shooting(directionToTarget.x, directionToTarget.y); 
+                lastBullet = Time.time;
             }
         }
     }
