@@ -8,6 +8,7 @@ public class EnemyMovement : MonoBehaviour
     protected float maxSpeed = 5;
     [SerializeField]
     protected float maxAcceleration = 1.0f;
+    public int health = 4;
 
     public Vector2 velocity = Vector2.zero;
 

@@ -18,10 +18,12 @@ public class BulletController : MonoBehaviour
         if (bulletLayer == LayerMask.NameToLayer("BulletPlayer"))
         {
             Physics2D.IgnoreLayerCollision(bulletLayer, LayerMask.NameToLayer("Player"));
+            Physics2D.IgnoreLayerCollision(bulletLayer, LayerMask.NameToLayer("BulletEnemy"));
         }
         else if (bulletLayer == LayerMask.NameToLayer("BulletEnemy"))
         {
             Physics2D.IgnoreLayerCollision(bulletLayer, LayerMask.NameToLayer("Enemy"));
+            Physics2D.IgnoreLayerCollision(bulletLayer, LayerMask.NameToLayer("BulletPlayer"));
         }
     }
 
@@ -38,7 +40,7 @@ public class BulletController : MonoBehaviour
 
     IEnumerator DelateDelay()
     {
-        yield return new WaitForSeconds(lifeTime);
+        yield return new WaitForSeconds(lifeTime*2);
         Destroy(gameObject);
     }
 }
