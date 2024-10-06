@@ -12,6 +12,16 @@ public class Health : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    public float flashDuration = 0.4f;
+    private SpriteRenderer spriteRenderer;
+
+    public GameObject RestartSceen;
+
+    private void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     // Reduce la salud cuando hay una colisión
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -20,6 +30,9 @@ public class Health : MonoBehaviour
         {
             // Reduce la salud del jugador
             health--;
+
+            // Se inicia el couroutine para que el jugador cambie de color
+            StartCoroutine(FlashHexColor("#EC6262"));
 
             // Limita la salud para que no sea menor que 0
             if (health < 0)
@@ -36,6 +49,8 @@ public class Health : MonoBehaviour
         if (other.gameObject.CompareTag("Projectile"))
         {
             health--;
+
+            StartCoroutine(FlashHexColor("#EC6262"));
 
             if (health < 0)
             {
@@ -78,5 +93,27 @@ public class Health : MonoBehaviour
     void Update()
     {
         UpdateHearts();
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            RestartSceen.SetActive(true);
+        }
+    }
+
+    private IEnumerator FlashHexColor(string hexColor)
+    {
+        // Definimos el color original para poder regresar a ese
+        Color originalColor = spriteRenderer.color;
+        Color newColor;
+        //Coloreamos de rojo siguiendo la estructura que dice el manual de unity
+        if (ColorUtility.TryParseHtmlString(hexColor, out newColor))
+        {
+            spriteRenderer.color = newColor;  // Cambia al color #EC6262
+        }
+        //Nos esperamos la cantidad indicada con flash duration
+        yield return new WaitForSeconds(flashDuration);
+        // Se regresa al color original
+        spriteRenderer.color = originalColor;
     }
 }

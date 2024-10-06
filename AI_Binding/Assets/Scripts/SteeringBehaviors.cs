@@ -22,12 +22,12 @@ public class SteeringBehaviors : EnemyMovement
     private float fleeTime = 0.0f;
 
     private float timeToShoot = 3.0f;
-    private float bulletSpeed = 3.0f;
     private float lastBullet;
     private bool isShooting = false;
     [Space(3)]
     [Header("Bullet Values")]
     [SerializeField] private float bulletDelay = 0.2f;
+    [SerializeField] private float bulletSpeed = 3.0f;
     public GameObject bulletPrefab;
 
     private bool playerInRoom = false;
@@ -187,14 +187,19 @@ public class SteeringBehaviors : EnemyMovement
         // Nuevamente PuntaMenosCola, pero cambiamos el nombre de la variable por su nuevo uso
         Vector2 directionToTarget = PuntaMenosCola(targetGameObject.transform.position, transform.position);
 
-        // Raycast (y su trazado/dibujo) hacia la dirección hacia el jugador
-        RaycastHit2D rayInfo = Physics2D.Raycast(transform.position, directionToTarget, Range);
+        // Necesitamos ignorar la capa de la torreta, por lo que declaramos una layer para
+        // que el raycast detecte únicamente objetos el la Layer de Player.
+        LayerMask mask = LayerMask.GetMask("Player");
+
+        // Raycast hacia el jugador
+        RaycastHit2D rayInfo = Physics2D.Raycast(transform.position, directionToTarget, Range, mask);
+
         Debug.DrawRay(transform.position, directionToTarget * Range, Color.red);
 
         // Comprobar si el raycast ha detectado al jugador
         if (rayInfo.collider != null)
         {
-            //Debug.Log("Detectó un objeto: " + rayInfo.collider.gameObject.name);
+            // Debug.Log("Detectó al objeto: " + rayInfo.collider.gameObject.name);
 
             if (rayInfo.collider.CompareTag("Player"))
             {
@@ -214,6 +219,19 @@ public class SteeringBehaviors : EnemyMovement
             {
                 Shooting(directionToTarget.x, directionToTarget.y); 
                 lastBullet = Time.time;
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerBullet"))
+        {
+            health--;
+
+            if (health <= 0)
+            {
+                Destroy(gameObject);
             }
         }
     }
