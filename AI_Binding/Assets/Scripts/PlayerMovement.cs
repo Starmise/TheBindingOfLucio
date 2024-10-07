@@ -52,7 +52,11 @@ public class PlayerMovement : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
         bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
 
-        // Asignamos la velocidad al Rigidbody2D del objeto "bullet".
+        // Se usa un operador ternario, que basicamente evalua un booleano con la
+        // siguiente estructura: condicion ? valor_true : valor_false
+        // Si x es menor que 0, se redondea hacia abajo y asegura que el proyectil
+        // se mueva correctamente hacia la izquierda. Si no, se redondea hacia arriba,
+        // moviendo el proyectil hacia la derecha.
         bullet.GetComponent<Rigidbody2D>().velocity = new Vector3(
             (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed,
             (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed,
@@ -105,6 +109,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector2 GetMovementDirection()
     {
+        // Debido a que el Player usa un float para calcular la velocidad y el enemigo
+        // usa un Vector2, se ajusta mediante este metodo.
         return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
     }
 }
