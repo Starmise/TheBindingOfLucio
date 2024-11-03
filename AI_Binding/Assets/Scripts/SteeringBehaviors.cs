@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // Definimos tres tipos de enemigos mediante un Enum
 public enum EnemyType
 {
     Flee,
     Heavy,
-    Torret
+    Torret,
+    HeavyWithVision
 }
 
 public class SteeringBehaviors : EnemyMovement
@@ -46,11 +48,26 @@ public class SteeringBehaviors : EnemyMovement
     public GameObject active;
     public GameObject Turret;
 
+    private NavMeshAgent agent;
+
+    private bool playerDetected = false;
+    private FieldOfView fov;
+
     void Start()
     {
-        Debug.Log("SteeringBehaviors Start ejecutándose");
+        // Debug.Log("SteeringBehaviors Start ejecutándose");
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        agent = GetComponent<NavMeshAgent>();
+
+        fov = GetComponentInChildren<FieldOfView>();
+
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+            agent.enabled = false; 
+        }
     }
 
     void Update()
@@ -62,7 +79,7 @@ public class SteeringBehaviors : EnemyMovement
 
         // Si la posición del jugador en "x" y "y", son mayor o iguales al mínimo y
         // menores o iguales al máximo de los límites, está dentro del cuarto.
-        if (targetGameObject.transform.position.x >= roomMinBounds.x && 
+        if (targetGameObject.transform.position.x >= roomMinBounds.x &&
             targetGameObject.transform.position.x <= roomMaxBounds.x &&
             targetGameObject.transform.position.y >= roomMinBounds.y &&
             targetGameObject.transform.position.y <= roomMaxBounds.y)
@@ -85,6 +102,9 @@ public class SteeringBehaviors : EnemyMovement
                 break;
             case EnemyType.Torret:
                 TurretEnemyLogic();
+                break;
+            case EnemyType.HeavyWithVision:
+                HeavyWithVisionLogic();
                 break;
             default:
                 Debug.LogError("No se ha definido este tipo de enemigo.");
@@ -132,7 +152,7 @@ public class SteeringBehaviors : EnemyMovement
 
                 // Reiniciar el tiempo de escape y marcar como no disparando después del disparo
                 fleeTime = 0.0f;
-                isShooting = false; 
+                isShooting = false;
             }
         }
     }
@@ -155,20 +175,32 @@ public class SteeringBehaviors : EnemyMovement
             return;
         }
 
-        if(playerInRoom)
+        if (playerInRoom)
         {
+            if (!agent.enabled)
+            {
+                agent.enabled = true;
+                agent.SetDestination(targetGameObject.transform.position);
+            }
+
+            // Usa el siguiente punto en el camino calculado por el agente en NavMesh
+            Vector2 nextPoint = agent.steeringTarget;
+            Vector2 PosToTarget = PuntaMenosCola(nextPoint, transform.position);
+
             timeInRoom += Time.deltaTime;
-            Vector2 PosToTarget = PuntaMenosCola(targetGameObject.transform.position, transform.position);
-
-            // Multiplicamos por el tiempo que pase en la habitación el jugador
             rb.AddForce(PosToTarget.normalized * maxAcceleration * timeInRoom, ForceMode2D.Force);
-
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
         }
         // Probando me di cuenta de que si el jugador deja el cuarto se ve raro, así que
         // implementamos una lógica sencilla para que desacelere cada segundo.
         else
         {
+            // Desactiva el agente si el jugador sale de la habitación
+            if (agent.enabled)
+            {
+                agent.enabled = false;
+            }
+
             float decelerationRate = 2.5f;
             // Se usa Lerp para pasar de la velocidad actual del enemigo a 0, en un lapso
             // determinado por el rango de desaceleración por cada segundo que pasa.
@@ -217,12 +249,51 @@ public class SteeringBehaviors : EnemyMovement
         if (Detected)
         {
             active.SetActive(true);
-            Turret.transform.up = directionToTarget; 
+            Turret.transform.up = directionToTarget;
 
             if (Time.time > lastBullet + bulletDelay)
             {
-                Shooting(directionToTarget.x, directionToTarget.y); 
+                Shooting(directionToTarget.x, directionToTarget.y);
                 lastBullet = Time.time;
+            }
+        }
+    }
+
+    void HeavyWithVisionLogic()
+    {
+        // Revisa si el jugador está dentro del FOV
+        playerDetected = fov.CheckFieldOfView();
+
+        if (playerDetected)
+        {
+            // Activamos el NavMeshAgent para que comience a perseguir al jugador
+            if (!agent.enabled)
+            {
+                agent.enabled = true;
+                agent.SetDestination(targetGameObject.transform.position);
+            }
+
+            // Logica para mover al enemigo hacia el jugador
+            Vector2 nextPoint = agent.steeringTarget;
+            Vector2 PosToTarget = PuntaMenosCola(nextPoint, transform.position);
+            rb.AddForce(PosToTarget.normalized * maxAcceleration, ForceMode2D.Force);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        }
+        else
+        {
+            // Desactivar el agente si el jugador no está en el FOV
+            if (agent.enabled)
+            {
+                agent.enabled = false;
+            }
+
+            // Desaceleración
+            float decelerationRate = 2.5f;
+            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, decelerationRate * Time.deltaTime);
+
+            if (rb.velocity.magnitude <= 0.5f)
+            {
+                rb.velocity = Vector2.zero;
             }
         }
     }
