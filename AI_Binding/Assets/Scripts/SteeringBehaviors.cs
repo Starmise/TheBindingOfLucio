@@ -52,6 +52,12 @@ public class SteeringBehaviors : EnemyMovement
 
     private bool playerDetected = false;
     private FieldOfView fov;
+    private bool isChasing = false;
+    private float chaseTime = 0f;
+    [Space(3)]
+    [Header("FOV Enemy")]
+    public float maxChaseDuration = 4f;
+    [SerializeField] private Vector2 startPosition;
 
     void Start()
     {
@@ -66,8 +72,10 @@ public class SteeringBehaviors : EnemyMovement
         {
             agent.updateRotation = false;
             agent.updateUpAxis = false;
-            agent.enabled = false; 
+            agent.enabled = false;
         }
+
+        startPosition = transform.position;
     }
 
     void Update()
@@ -263,37 +271,71 @@ public class SteeringBehaviors : EnemyMovement
     {
         // Revisa si el jugador está dentro del FOV
         playerDetected = fov.CheckFieldOfView();
-
         if (playerDetected)
         {
-            // Activamos el NavMeshAgent para que comience a perseguir al jugador
-            if (!agent.enabled)
-            {
-                agent.enabled = true;
-                agent.SetDestination(targetGameObject.transform.position);
-            }
+            StartChase();
+        }
 
-            // Logica para mover al enemigo hacia el jugador
-            Vector2 nextPoint = agent.steeringTarget;
-            Vector2 PosToTarget = PuntaMenosCola(nextPoint, transform.position);
-            rb.AddForce(PosToTarget.normalized * maxAcceleration, ForceMode2D.Force);
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        if (isChasing)
+        {
+            ChasePlayer();
+
+            chaseTime += Time.deltaTime;
+
+            // Si ya persiguói al jugador por 4 segundos, el enemigo vuelve a la posición inicial
+            if (chaseTime >= maxChaseDuration)
+            {
+                StopChase();
+            }
         }
         else
         {
-            // Desactivar el agente si el jugador no está en el FOV
+            ReturnToStartPosition();
+        }
+    }
+
+    void StartChase()
+    {
+        if (!isChasing)
+        {
+            isChasing = true;
+            chaseTime = 0f;
+            agent.enabled = true;
+            Debug.Log("Iniciando persecución al jugador.");
+        }
+    }
+
+    void ChasePlayer()
+    {
+        if (agent.enabled)
+        {
+            agent.SetDestination(targetGameObject.transform.position);
+        }
+    }
+
+    void StopChase()
+    {
+        isChasing = false;
+        agent.enabled = false;
+        Debug.Log("Deteniendo persecución. Regresando a la posición inicial.");
+    }
+
+    void ReturnToStartPosition()
+    {
+        if (Vector2.Distance(transform.position, startPosition) > 0.1f)
+        {
+            if (!agent.enabled)
+            {
+                agent.enabled = true;
+                agent.SetDestination(startPosition);
+            }
+        }
+        else
+        {
+            // Si ya estamos en la posición inicial, desactiva el agente para detener el movimiento
             if (agent.enabled)
             {
                 agent.enabled = false;
-            }
-
-            // Desaceleración
-            float decelerationRate = 2.5f;
-            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, decelerationRate * Time.deltaTime);
-
-            if (rb.velocity.magnitude <= 0.5f)
-            {
-                rb.velocity = Vector2.zero;
             }
         }
     }
