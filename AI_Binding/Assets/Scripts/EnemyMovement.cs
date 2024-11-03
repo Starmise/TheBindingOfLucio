@@ -45,7 +45,7 @@ public class EnemyMovement : MonoBehaviour
 
     protected void Start()
     {
-        Debug.Log("Se est· ejecutando " + gameObject.name);
+        Debug.Log("Se est√° ejecutando " + gameObject.name);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
     }
 
@@ -56,26 +56,26 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
 
-        // Se obtiene la direrecciÛn del jugador para obtener su velocidad actual
+        // Se obtiene la direrecci√≥n del jugador para obtener su velocidad actual
         Vector2 playerDirection = targetGameObject.GetComponent<PlayerMovement>().GetMovementDirection(); 
 
-        // Se multiplica la direcciÛn por la velocidad para obtener la velocidad en Vector2
+        // Se multiplica la direcci√≥n por la velocidad para obtener la velocidad en Vector2
         Vector2 currentVelocity = playerDirection * targetGameObject.GetComponent<PlayerMovement>().speed;
 
-        // Calcular el tiempo de predicciÛn
+        // Calcular el tiempo de predicci√≥n
         PursuitTimePrediction = CalculatePredictedTime(maxSpeed, transform.position, targetGameObject.transform.position);
 
-        // Predecir la posiciÛn futura del jugador
+        // Predecir la posici√≥n futura del jugador
         Vector2 PredictedPosition = PredictPosition(targetGameObject.transform.position, currentVelocity, PursuitTimePrediction);
 
-        // Calcular la direcciÛn hacia la posiciÛn que predecimos
+        // Calcular la direcci√≥n hacia la posici√≥n que predecimos
         Vector2 PosToTarget = -PuntaMenosCola(PredictedPosition, transform.position); //Flee
         PosToTarget += ExternalForces;
 
         // Actualizar la velocidad del enemigo
         velocity += PosToTarget.normalized * maxAcceleration * Time.deltaTime;
 
-        // Limitar la velocidad para que no exceda la velocidad m·xima
+        // Limitar la velocidad para que no exceda la velocidad m√°xima
         velocity = Vector2.ClampMagnitude(velocity, maxSpeed);
         transform.position += (Vector3)(velocity * Time.deltaTime);
 
@@ -105,7 +105,7 @@ public class EnemyMovement : MonoBehaviour
 
     Vector2 PredictPosition(Vector2 InitialPosition, Vector2 Velocity, float TimePrediction)
     {
-        // Con base en la Velocity, calcular la posiciÛn del jugador tras X tiempo.
+        // Con base en la Velocity, calcular la posici√≥n del jugador tras X tiempo.
         return InitialPosition + Velocity * TimePrediction;
     }
 
