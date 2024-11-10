@@ -16,6 +16,7 @@ public class NavMeshEscapistEnemy : MonoBehaviour
     [SerializeField] private float bulletSpeed = 3.0f;
     [SerializeField] private GameObject bulletPrefab;
 
+    private Renderer renderer;
     private NavMeshAgent agent;
     private float stateTimer;
     private float shotTimer;
@@ -25,11 +26,20 @@ public class NavMeshEscapistEnemy : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        renderer = GetComponent<Renderer>();
 
         if (agent == null)
         {
             Debug.LogError("NavMeshAgent no encontrado en el objeto.");
             return;
+        }
+
+        // Lógica que ya teníamos en el script de bullet, pero se añade para evitar conflictos
+        int bulletLayer = gameObject.layer;
+        if (bulletLayer == LayerMask.NameToLayer("BulletEnemy"))
+        {
+            Physics2D.IgnoreLayerCollision(bulletLayer, LayerMask.NameToLayer("Enemy"));
+            Physics2D.IgnoreLayerCollision(bulletLayer, LayerMask.NameToLayer("BulletPlayer"));
         }
 
         // Configuración del NavMeshAgent para movimiento ligero
@@ -84,6 +94,12 @@ public class NavMeshEscapistEnemy : MonoBehaviour
     {
         stateTimer -= Time.deltaTime;
         shotTimer -= Time.deltaTime;
+
+        // Que el enemigo vuelva a la normalidad al estar activo
+        if (renderer != null)
+        {
+            renderer.material.color = Color.white;
+        }
 
         if (stateTimer <= 0)
         {
@@ -148,7 +164,11 @@ public class NavMeshEscapistEnemy : MonoBehaviour
             Vector3 shootDirection = (player.position - transform.position).normalized;
             shootDirection += Random.insideUnitSphere * (1f - accuracy);
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            Rigidbody2D rb = bullet.AddComponent<Rigidbody2D>();
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            // Necesitamos poner la gravedad de las balas en 0, por eso se iban hacia abajo
+            bullet.GetComponent<Rigidbody2D>().gravityScale = 0;
+
+            rb.velocity = shootDirection * bulletSpeed;
 
             Debug.DrawRay(transform.position, shootDirection * 10, Color.yellow, 0.2f);
             shotTimer = shotCooldown;
@@ -157,7 +177,7 @@ public class NavMeshEscapistEnemy : MonoBehaviour
 
     void VisualizeTiredState()
     {
-        Renderer renderer = GetComponent<Renderer>();
+        //Obtenemos el renderer desde el start para no tener que iniciarlo en cada método 
         if (renderer != null)
         {
             renderer.material.color = Color.blue;
