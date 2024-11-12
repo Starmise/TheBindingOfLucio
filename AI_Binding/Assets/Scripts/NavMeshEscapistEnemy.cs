@@ -149,10 +149,17 @@ public class NavMeshEscapistEnemy : MonoBehaviour
 
     bool HasLineOfSightToPlayer()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, (player.position - transform.position).normalized, out hit, detectionRadius))
+        string[] layers = { "Player", "Obstacle" };
+        LayerMask layerMask = LayerMask.GetMask(layers);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, detectionRadius, layerMask);
+        if (hit)
         {
-            return hit.transform == player;
+
+            if (hit.rigidbody.gameObject == player.gameObject /* hit.transform == player */ )
+            {
+                Debug.LogWarning("Seeing the player.");
+            }
+            return hit.rigidbody.gameObject == player.gameObject;
         }
         return false;
     }
@@ -186,5 +193,17 @@ public class NavMeshEscapistEnemy : MonoBehaviour
         {
             Debug.LogWarning("No se encontró Renderer para cambiar el color del enemigo.");
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (player != null)
+        {
+            Gizmos.color = Color.red;
+            // Gizmos.DrawLine(transform.position, player.position);
+            Gizmos.DrawLine(transform.position, transform.position + (player.position - transform.position).normalized * detectionRadius);
+        }
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }
