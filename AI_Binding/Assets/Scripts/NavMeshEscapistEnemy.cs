@@ -22,6 +22,7 @@ public class NavMeshEscapistEnemy : MonoBehaviour
     private float shotTimer;
     private bool isTired = false;
     private bool canSeePlayer = false;
+    private bool isFleeing = false; //Comrpobar que esté huyendo
 
     void Start()
     {
@@ -109,19 +110,23 @@ public class NavMeshEscapistEnemy : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) <= detectionRadius)
         {
-            if (canSeePlayer)
+            if (canSeePlayer && !isFleeing)
             {
+                // Solo se queda quieto si no está huyendo
                 agent.isStopped = true;
             }
-            else
+            else if (!canSeePlayer)
             {
                 agent.isStopped = false;
-                agent.SetDestination(player.position);
+                FleeFromPlayer();
             }
         }
         else
         {
-            FleeFromPlayer();
+            // El enemigo persigue al jugador si está fuera del rango de detección
+            isFleeing = false;
+            agent.isStopped = false;
+            agent.SetDestination(player.position);
         }
     }
 
@@ -133,6 +138,7 @@ public class NavMeshEscapistEnemy : MonoBehaviour
 
     void FleeFromPlayer()
     {
+        isFleeing = true; // Bandera para saber si el enemigo huye
         Vector3 fleeDirection = (transform.position - player.position).normalized;
         Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
 
