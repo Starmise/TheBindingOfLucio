@@ -110,16 +110,8 @@ public class NavMeshEscapistEnemy : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) <= detectionRadius)
         {
-            if (canSeePlayer && !isFleeing)
-            {
-                // Solo se queda quieto si no está huyendo
-                agent.isStopped = true;
-            }
-            else if (!canSeePlayer)
-            {
-                agent.isStopped = false;
-                FleeFromPlayer();
-            }
+            agent.isStopped = false;
+            FleeFromPlayer();
         }
         else
         {
@@ -127,6 +119,12 @@ public class NavMeshEscapistEnemy : MonoBehaviour
             isFleeing = false;
             agent.isStopped = false;
             agent.SetDestination(player.position);
+
+            if (canSeePlayer && !isFleeing)
+            {
+                // Solo se queda quieto si no está huyendo Y tiene al jugador en la línea de visión
+                agent.isStopped = true;
+            }
         }
     }
 
@@ -157,11 +155,11 @@ public class NavMeshEscapistEnemy : MonoBehaviour
     {
         string[] layers = { "Player", "Obstacle" };
         LayerMask layerMask = LayerMask.GetMask(layers);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, detectionRadius, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, Mathf.Infinity, layerMask);
         if (hit)
         {
 
-            if (hit.rigidbody.gameObject == player.gameObject /* hit.transform == player */ )
+            if (hit.rigidbody != null && hit.rigidbody.gameObject == player.gameObject)
             {
                 Debug.LogWarning("Seeing the player.");
             }
