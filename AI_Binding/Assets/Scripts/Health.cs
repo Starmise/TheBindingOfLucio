@@ -92,9 +92,12 @@ public class Health : MonoBehaviour
     // Método para actualizar constantemente el número de corazones (opcional)
     void Update()
     {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
         UpdateHearts();
 
-        if (health <= 0)
+        // Pantalla de reinicio o salir 
+        if (health <= 0 || enemies.Length == 0)
         {
             Destroy(gameObject);
             RestartSceen.SetActive(true);

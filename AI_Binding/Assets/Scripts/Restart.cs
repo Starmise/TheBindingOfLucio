@@ -6,7 +6,9 @@ using TMPro;
 
 public class Restart : MonoBehaviour
 {
-	private void Start()
+    [SerializeField] private string nextSceneName;
+
+    private void Start()
 	{
         // Necesito que de sesactive cuando se inicia la escena, ya que solo
         // aparece si el jugador murió.
@@ -18,6 +20,11 @@ public class Restart : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.R)){
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
