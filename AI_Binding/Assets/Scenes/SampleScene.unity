@@ -4708,8 +4708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3df2878fc9461479a8ec4896291fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
-  numOfHearts: 3
+  health: 5
+  numOfHearts: 5
   hearts:
   - {fileID: 1743096062}
   - {fileID: 1105804473}
@@ -8327,7 +8327,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972642803}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
