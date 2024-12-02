@@ -24,6 +24,8 @@ public class NavMeshEscapistEnemy : MonoBehaviour
     private bool canSeePlayer = false;
     private bool isFleeing = false; //Comrpobar que esté huyendo
 
+    public int health = 6;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -161,7 +163,7 @@ public class NavMeshEscapistEnemy : MonoBehaviour
 
             if (hit.rigidbody != null && hit.rigidbody.gameObject == player.gameObject)
             {
-                Debug.LogWarning("Seeing the player.");
+                //Debug.LogWarning("Seeing the player.");
             }
             return hit.rigidbody.gameObject == player.gameObject;
         }
@@ -209,5 +211,18 @@ public class NavMeshEscapistEnemy : MonoBehaviour
         }
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerBullet"))
+        {
+            health--;
+
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

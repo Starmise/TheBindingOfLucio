@@ -8,6 +8,7 @@ public enum EnemyType
 {
     Flee,
     Heavy,
+    HeavyOG,
     Torret,
     HeavyWithVision
 }
@@ -114,6 +115,9 @@ public class SteeringBehaviors : EnemyMovement
             case EnemyType.HeavyWithVision:
                 HeavyWithVisionLogic();
                 break;
+            case EnemyType.HeavyOG:
+                HeavyEnemyOGLogic();
+                break;
             default:
                 Debug.LogError("No se ha definido este tipo de enemigo.");
                 break;
@@ -128,6 +132,11 @@ public class SteeringBehaviors : EnemyMovement
         {
             return;
         }
+
+        if (bulletPrefab == null)
+            Debug.LogError("bulletPrefab no está asignado correctamente en runtime.");
+
+
 
         Vector2 PosToTarget = -PuntaMenosCola(targetGameObject.transform.position, transform.position);
 
@@ -168,7 +177,7 @@ public class SteeringBehaviors : EnemyMovement
     void Shooting(float x, float y)
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
-        bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
+        bullet.GetComponent<Rigidbody2D>().gravityScale = 0;
 
         bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(
             (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed,
@@ -216,6 +225,27 @@ public class SteeringBehaviors : EnemyMovement
 
             // Si la velocidad ya es muy poca, se pasa a 0 automáticamente. Se usa .magnitud 
             // porque velocity es un vector y necesitamos una magnitud para comparar.
+            if (rb.velocity.magnitude <= 0.5f)
+            {
+                rb.velocity = Vector2.zero;
+            }
+        }
+    }
+
+    void HeavyEnemyOGLogic()
+    {
+        if (playerInRoom)
+        {
+            timeInRoom += Time.deltaTime;
+            Vector2 PosToTarget = PuntaMenosCola(targetGameObject.transform.position, transform.position);
+            rb.AddForce(PosToTarget.normalized * maxAcceleration * timeInRoom, ForceMode2D.Force);
+
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        }
+        else
+        {
+            float decelerationRate = 2.5f;
+            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, decelerationRate * Time.deltaTime);
             if (rb.velocity.magnitude <= 0.5f)
             {
                 rb.velocity = Vector2.zero;

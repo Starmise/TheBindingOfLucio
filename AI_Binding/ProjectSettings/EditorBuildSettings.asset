@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Polar_Base.unity
     guid: 11fd518ae0bbc4e43b3ccb01bd1970b5
+  - enabled: 1
+    path: Assets/Scenes/NavigationMesh.unity
+    guid: 00bc3a4c6b4b18949a8fc3d49bad3b2c
+  - enabled: 1
+    path: Assets/Scenes/NavMeshEscapistEnemy.unity
+    guid: 9d3d1ea30b5e1204a86d438ecfac8245
   m_configObjects: {}
