@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NavMeshEscapistEnemy.unity
     guid: 9d3d1ea30b5e1204a86d438ecfac8245
+  - enabled: 1
+    path: Assets/Scenes/BossFight.unity
+    guid: ecc7403283d1eac4485abcd2a35b543e
   m_configObjects: {}

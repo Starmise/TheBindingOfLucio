@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -126,19 +126,19 @@ TextureImporter:
       name: DASH ATTACK_0
       rect:
         serializedVersion: 2
-        x: 61
-        y: 7
-        width: 67
-        height: 46
+        x: 0
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6458b9eee8140cb45bc214f55f1c301d
-      internalID: 1158506820
+      spriteID: 26a1b02b49a12544e87a44599c6ca4ae
+      internalID: 1280038385
       vertices: []
       indices: 
       edges: []
@@ -147,19 +147,19 @@ TextureImporter:
       name: DASH ATTACK_1
       rect:
         serializedVersion: 2
-        x: 259
-        y: 7
-        width: 62
-        height: 39
+        x: 192
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73624da3e5c31194b8c915880ca83f87
-      internalID: 1848402322
+      spriteID: 68faadf14fba4e641802188cc9a59374
+      internalID: -631242037
       vertices: []
       indices: 
       edges: []
@@ -168,19 +168,19 @@ TextureImporter:
       name: DASH ATTACK_2
       rect:
         serializedVersion: 2
-        x: 454
-        y: 7
-        width: 61
-        height: 37
+        x: 384
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afe6a4c356775c64593ec4811238ad2e
-      internalID: 71633607
+      spriteID: 2743f98896242f44f8abc111d8a9bdb5
+      internalID: -370535131
       vertices: []
       indices: 
       edges: []
@@ -189,19 +189,19 @@ TextureImporter:
       name: DASH ATTACK_3
       rect:
         serializedVersion: 2
-        x: 646
-        y: 7
-        width: 59
-        height: 37
+        x: 576
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25bbd8321f92b974983ed06f4cc50303
-      internalID: 1733789658
+      spriteID: 0bcf23c273800ae4fb66d626cd11a1ec
+      internalID: 1178479624
       vertices: []
       indices: 
       edges: []
@@ -210,19 +210,19 @@ TextureImporter:
       name: DASH ATTACK_4
       rect:
         serializedVersion: 2
-        x: 838
-        y: 7
-        width: 60
-        height: 37
+        x: 768
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ecffd0cefc4983478e5362f367420e9
-      internalID: -2119179148
+      spriteID: 2dd2d14e35d200540a34a2ddd60c7e51
+      internalID: -957870036
       vertices: []
       indices: 
       edges: []
@@ -231,19 +231,19 @@ TextureImporter:
       name: DASH ATTACK_5
       rect:
         serializedVersion: 2
-        x: 1030
-        y: 7
-        width: 60
-        height: 37
+        x: 960
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d93ca146569b604eb71187f73569ed0
-      internalID: -1943159040
+      spriteID: 58c8dbcaec2daaa4fa94458d8d9fc314
+      internalID: 1440385700
       vertices: []
       indices: 
       edges: []
@@ -252,19 +252,19 @@ TextureImporter:
       name: DASH ATTACK_6
       rect:
         serializedVersion: 2
-        x: 1209
-        y: 7
-        width: 75
-        height: 46
+        x: 1152
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6a48a7dafd5eff4c93f3df838277c17
-      internalID: -596277300
+      spriteID: 6a6356a1ad578b04294d2e5acef7b0a1
+      internalID: -828130094
       vertices: []
       indices: 
       edges: []
@@ -273,19 +273,19 @@ TextureImporter:
       name: DASH ATTACK_7
       rect:
         serializedVersion: 2
-        x: 1402
-        y: 7
-        width: 74
-        height: 46
+        x: 1344
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7167312e0219e14f9a002f1bada066d
-      internalID: -1946150491
+      spriteID: 562e1db1757e25c4d9d2d14df8f164ee
+      internalID: 1492325512
       vertices: []
       indices: 
       edges: []
@@ -294,19 +294,19 @@ TextureImporter:
       name: DASH ATTACK_8
       rect:
         serializedVersion: 2
-        x: 1586
-        y: 7
-        width: 79
-        height: 44
+        x: 1536
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: daafa1228aa5dae479c2f0af9157b30e
-      internalID: -7300053
+      spriteID: 90d4ed971fc72f9429e56235ceb33d66
+      internalID: 1738794114
       vertices: []
       indices: 
       edges: []
@@ -315,19 +315,19 @@ TextureImporter:
       name: DASH ATTACK_9
       rect:
         serializedVersion: 2
-        x: 1784
-        y: 7
-        width: 72
-        height: 39
+        x: 1728
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea4047c9167312443aa664a2a6a3378e
-      internalID: -2041724382
+      spriteID: 59cc0e882fd5a49418c7c2725fb4e502
+      internalID: -1737233861
       vertices: []
       indices: 
       edges: []
@@ -336,19 +336,19 @@ TextureImporter:
       name: DASH ATTACK_10
       rect:
         serializedVersion: 2
-        x: 1987
-        y: 7
-        width: 63
-        height: 38
+        x: 1920
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04131d5af9df40643820199a43380ed3
-      internalID: -799043804
+      spriteID: 5567a798ece896448ba8b7197424e09c
+      internalID: -1989055384
       vertices: []
       indices: 
       edges: []
@@ -357,19 +357,19 @@ TextureImporter:
       name: DASH ATTACK_11
       rect:
         serializedVersion: 2
-        x: 2184
-        y: 7
-        width: 58
-        height: 38
+        x: 2112
+        y: 0
+        width: 192
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 0, z: 50, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24fbf3a6857690f4eb8721a5685cc387
-      internalID: 674373330
+      spriteID: 96b2e25d27de3144fb81e6e5ef5e1035
+      internalID: -91168118
       vertices: []
       indices: 
       edges: []
@@ -385,18 +385,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DASH ATTACK_0: 1158506820
-      DASH ATTACK_1: 1848402322
-      DASH ATTACK_10: -799043804
-      DASH ATTACK_11: 674373330
-      DASH ATTACK_2: 71633607
-      DASH ATTACK_3: 1733789658
-      DASH ATTACK_4: -2119179148
-      DASH ATTACK_5: -1943159040
-      DASH ATTACK_6: -596277300
-      DASH ATTACK_7: -1946150491
-      DASH ATTACK_8: -7300053
-      DASH ATTACK_9: -2041724382
+      DASH ATTACK_0: 1280038385
+      DASH ATTACK_1: -631242037
+      DASH ATTACK_10: -1989055384
+      DASH ATTACK_11: -91168118
+      DASH ATTACK_2: -370535131
+      DASH ATTACK_3: 1178479624
+      DASH ATTACK_4: -957870036
+      DASH ATTACK_5: 1440385700
+      DASH ATTACK_6: -828130094
+      DASH ATTACK_7: 1492325512
+      DASH ATTACK_8: 1738794114
+      DASH ATTACK_9: -1737233861
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
