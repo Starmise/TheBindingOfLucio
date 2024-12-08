@@ -32,14 +32,12 @@ public class MeleeAreaState : BossState
             if (enemy.CompareTag("Player"))
             {
                 // Aplicar daño al jugador
-                enemy.GetComponent<PlayerHealth>().TakeDamage(damage);
+                ;
             }
         }
     }
 
     public override void UpdateLogic()
     {
-        // Cambiar a estado inactivo tras el ataque
-        stateMachine.ChangeState(new IdleState(stateMachine, boss, player));
     }
 }

@@ -9,6 +9,7 @@ public class AreaProjectileState : BossState
     private int projectileCount = 5; // Número de proyectiles por ráfaga
     private float spreadAngle = 45f; // Ángulo de separación entre proyectiles
     private bool hasAttacked = false;
+    private Transform player;
 
     public AreaProjectileState(BossStateMachine stateMachine, GameObject boss, GameObject projectilePrefab, Transform firePoint)
         : base(stateMachine, boss)
@@ -43,12 +44,7 @@ public class AreaProjectileState : BossState
         float distanceToPlayer = Vector2.Distance(player.position, boss.transform.position);
         if (distanceToPlayer > 5f && distanceToPlayer <= 10f)
         {
-            stateMachine.ChangeState(new UltimateState(stateMachine, boss, player));
-        }
-        else
-        {
-            // Cambiar a estado inactivo tras el ataque
-            stateMachine.ChangeState(new IdleState(stateMachine, boss, player));
+            stateMachine.ChangeState(new UltimateState(stateMachine, boss, player, projectilePrefab));
         }
     }
 }

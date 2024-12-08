@@ -49,7 +49,6 @@ public class UltimateState : BossState
         if (timer <= 0)
         {
             // Cambiar a estado inactivo tras el ataque
-            stateMachine.ChangeState(new IdleState(stateMachine, boss, player));
         }
     }
 }

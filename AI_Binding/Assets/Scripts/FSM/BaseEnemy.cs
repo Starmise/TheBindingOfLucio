@@ -26,12 +26,44 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
+    // Verificamos si el jugador está en el rango de visión
     public bool IsPlayerInRange(float range)
     {
-        if (PlayerRef != null)
-        {
-            //return Utilities.Utility.IsInsideRadius(PlayerRef.transform.position, transform.position, range);
-        }
-        return false;
+        float distance = Vector3.Distance(transform.position, PlayerRef.transform.position);
+        return distance <= range;
+    }
+
+
+    // Korojefe le lanza la bolita de nieve al jugador
+    public void FireProjectile(Vector3 targetPosition)
+    {
+        // Lógica para instanciar y lanzar un proyectil hacia el targetPosition.
+        Debug.Log("Lanzando proyectil básico hacia " + targetPosition);
+    }
+
+    // Atque tipo abanico al jugador (Como los del Nier Automata :0)
+    public void FireFanAttack(Vector3 targetPosition)
+    {
+        // Aquí va la lógica para instanciar y lanzar un ataque en abanico.
+        Debug.Log("Lanzando ataque en abanico hacia " + targetPosition);
+    }
+
+    // Método para lanzar el Ultimate
+    public void FireLargeProjectile(Vector3 spawnPoint)
+    {
+        // Aquí va la lógica para instanciar un proyectil grande en un punto de aparición.
+        Debug.Log("Activando el Ultimate en el " + spawnPoint);
+    }
+
+    // Verifica si el jugador está en el lado horizontal del jefe
+    public bool IsPlayerOnHorizontalSide()
+    {
+        return Mathf.Abs(transform.position.x - PlayerRef.transform.position.x) > Mathf.Abs(transform.position.y - PlayerRef.transform.position.y);
+    }
+
+    // Verifica si el jugador está en el lado vertical del jefe
+    public bool IsPlayerOnVerticalSide()
+    {
+        return Mathf.Abs(transform.position.y - PlayerRef.transform.position.y) > Mathf.Abs(transform.position.x - PlayerRef.transform.position.x);
     }
 }

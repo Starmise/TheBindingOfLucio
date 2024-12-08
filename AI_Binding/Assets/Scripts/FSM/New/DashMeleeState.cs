@@ -36,11 +36,6 @@ public class DashMeleeState : BossState
             {
                 stateMachine.ChangeState(new MeleeAreaState(stateMachine, boss, player));
             }
-            else
-            {
-                // Volver a otro estado si no está en rango melee
-                stateMachine.ChangeState(new IdleState(stateMachine, boss, player));
-            }
         }
     }
 
