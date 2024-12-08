@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.AI;
 
 public class SimplifiedBossNavMesh : MonoBehaviour
@@ -10,7 +10,6 @@ public class SimplifiedBossNavMesh : MonoBehaviour
 
     private Renderer renderer;
     private NavMeshAgent agent;
-    private BossStateMachine stateMachine; // Máquina de estados
     private float stateTimer;
     private float restTimer;
     private bool isTired = false;
@@ -44,9 +43,8 @@ public class SimplifiedBossNavMesh : MonoBehaviour
 
     void Update()
     {
-        if (player == null || agent == null || stateMachine == null)
-        stateMachine.UpdateLogic();
-        return;
+        if (player == null || agent == null)
+            return;
 
         if (isTired)
         {
@@ -121,14 +119,8 @@ public class SimplifiedBossNavMesh : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No se encontró Renderer para cambiar el color del enemigo.");
+            Debug.LogWarning("No se encontrÃ³ Renderer para cambiar el color del enemigo.");
         }
-    }
-
-    private void InitializeStateMachine()
-    {
-        stateMachine = new BossStateMachine();
-
     }
 
     void OnTriggerEnter2D(Collider2D collision)

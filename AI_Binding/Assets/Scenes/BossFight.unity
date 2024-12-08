@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 69258592}
   - component: {fileID: 69258591}
   - component: {fileID: 69258590}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,7 +575,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -594,7 +594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1866741862}
   tiredDuration: 1
-  activeDuration: 5
+  activeDuration: 10
   restDuration: 2
   health: 100000
 --- !u!195 &221228430
@@ -629,7 +629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 263950567}
   - component: {fileID: 263950568}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider Obs (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,7 +646,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.48, y: -2.278562, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1290756097}
@@ -1434,7 +1434,7 @@ GameObject:
   - component: {fileID: 614346738}
   - component: {fileID: 614346737}
   - component: {fileID: 614346736}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1604,7 +1604,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691067301}
   - component: {fileID: 691067302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider Obs (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1621,7 +1621,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -19.5, y: -2.3, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1290756097}
@@ -1681,7 +1681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 715114535}
   - component: {fileID: 715114536}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider Obs (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1698,7 +1698,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -27.99, y: 7.64, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1290756097}
@@ -1940,6 +1940,147 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035628166}
   m_CullTransparentMesh: 1
+--- !u!1 &1174696502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1174696505}
+  - component: {fileID: 1174696504}
+  - component: {fileID: 1174696503}
+  m_Layer: 0
+  m_Name: Music Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1174696503
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174696502}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: bc47df86373139b43a431e8430ba3215, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1174696504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174696502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef6a63f0e80870d468fbeea3721f82b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1174696505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174696502}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.613847, y: -2.7477183, z: -0.14622676}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1187492006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2143,7 +2284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1464838820}
   - component: {fileID: 1464838821}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider Obs (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2160,7 +2301,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -27.99, y: -12.85, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1290756097}
@@ -2334,7 +2475,7 @@ GameObject:
   - component: {fileID: 1594507662}
   - component: {fileID: 1594507661}
   - component: {fileID: 1594507660}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2738,7 +2879,7 @@ GameObject:
   - component: {fileID: 1792250731}
   - component: {fileID: 1792250730}
   - component: {fileID: 1792250729}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2990,7 +3131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2023596526}
   - component: {fileID: 2023596527}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider Obs (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3007,7 +3148,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.04, y: -12.36, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1290756097}
@@ -3070,7 +3211,7 @@ GameObject:
   - component: {fileID: 2030482716}
   - component: {fileID: 2030482715}
   - component: {fileID: 2030482714}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3240,7 +3381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045792564}
   - component: {fileID: 2045792565}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider Obs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3257,7 +3398,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.01, y: 7.64, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1290756097}
@@ -3320,7 +3461,7 @@ GameObject:
   - component: {fileID: 2077152539}
   - component: {fileID: 2077152538}
   - component: {fileID: 2077152537}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3753,6 +3894,7 @@ SceneRoots:
   - {fileID: 362686264}
   - {fileID: 221228424}
   - {fileID: 901551738022872944}
+  - {fileID: 1174696505}
   - {fileID: 1681488042}
   - {fileID: 269518132}
   - {fileID: 171896019}
