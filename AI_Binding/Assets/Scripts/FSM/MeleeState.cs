@@ -9,8 +9,9 @@ public class MeleeState : BaseState
     public enum MeleeSubstate
     {
         SubstateSelection,
-        BasicAttack, // Añadir en el diagrama
+        BasicAttack, 
         Dash,
+        AreaAttack,
         Ultimate
     }
 
@@ -154,6 +155,10 @@ public class MeleeState : BaseState
                 // Hacer el OnExit() de Basic Attack.
                 OnExitBasicAttack(); // nomás imprime, pero es para dar la idea de cómo se llamaría el OnExit de cada subestado.
                 break;
+            case MeleeSubstate.AreaAttack:
+                // Hacer el OnExit()
+                Debug.Log("On Exit de Area Attack.");
+                break;
             case MeleeSubstate.Dash:
                 // Hacer el OnExit()
                 Debug.Log("On Exit de Dash.");
@@ -266,6 +271,19 @@ public class MeleeState : BaseState
                     // Iniciar el build-up del ataque.
                     StartCoroutine(Buildup(bossOwner.DashBuildupTime, DashAttack()));
                     // return; pero no es necesario por cómo está especificado mi subestado de dash.
+                }
+                break;
+            case MeleeSubstate.AreaAttack:
+                // Cuando entra a este subestado NO se mueve hacia el jugador (al menos la del juego de Hades)
+                if (!SubstateEntered)  // este if(!SubstateEntered) es básicamente el OnEnter de cada subestado.
+                {
+                    SubstateEntered = true;
+                    // Le dices que ahorita no se mueva. (Boss de hades, en sus casos podría llegar a variar)
+                    owner.navMeshAgent.SetDestination(owner.transform.position);
+
+                    // Iniciar el build-up del ataque.
+                    StartCoroutine(Buildup(bossOwner.AreaAttackBuildupTime, AreaAttack()));
+                    // return; pero no es necesario por cómo está especificado mi subestado de AreaAttack.
                 }
                 break;
             case MeleeSubstate.Ultimate:
