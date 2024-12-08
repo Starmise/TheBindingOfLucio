@@ -129,8 +129,6 @@ public class SimplifiedBossNavMesh : MonoBehaviour
     {
         stateMachine = new BossStateMachine();
 
-        // Configura el estado inicial (Idle o ActiveState)
-        stateMachine.ChangeState(new ActiveState(stateMachine, gameObject, player, agent, activeDuration, tiredDuration, restDuration, renderer));
     }
 
     void OnTriggerEnter2D(Collider2D collision)

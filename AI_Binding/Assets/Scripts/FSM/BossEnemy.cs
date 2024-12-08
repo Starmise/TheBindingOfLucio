@@ -17,6 +17,11 @@ public class BossEnemy : BaseEnemy
 
     public bool EnableDebug = true;
 
+    public float RangedAttackRange = 10.0f; // Rango de ataque para el RangedState
+    public float BasicAttackTime = 1.0f; // Tiempo entre ataques básicos en RangedState
+    public int BasicAtksBeforeAreaAttack = 2; // Ataques básicos antes de AreaAttack
+    public float UltimateAttackDuration = 2.0f; // Cuanto va a durar el ultimate (Estás demente Parker)
+
     public override void Awake()
     {
         base.Awake();

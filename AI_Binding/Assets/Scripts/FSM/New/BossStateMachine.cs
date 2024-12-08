@@ -7,6 +7,11 @@ public class BossStateMachine : MonoBehaviour
     private BossState _currentState;
     private Transform player;
     private int basicAttackCount = 0;
+    
+
+    [SerializeField] private GameObject projectilePrefab; // Referencia al prefab del proyectil
+    [SerializeField] private Transform firePoint; // Punto de disparo del jefe
+    [SerializeField] private GameObject bossPrefab; // Punto de disparo del jefe
 
     // Inicializar con un estado inicial
     public void Initialize(BossState startingState)
@@ -19,9 +24,6 @@ public class BossStateMachine : MonoBehaviour
     {
         BossStateMachine bossStateMachine = GetComponent<BossStateMachine>();
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-        GameObject projectilePrefab = ...; // Referencia al prefab del proyectil
-        Transform firePoint = ...; // Punto de disparo del jefe
-        // Inicializar con un estado inicial
         bossStateMachine.Initialize(new BasicProjectileAttackState(bossStateMachine, gameObject, player, projectilePrefab, firePoint));
     }
 
@@ -33,7 +35,7 @@ public class BossStateMachine : MonoBehaviour
         _currentState.Enter(); // Entrar al nuevo estado
     }
 
-    private void Update()
+    public void UpdateLogic()
     {
         // Lógica del estado actual
         _currentState?.UpdateLogic();
@@ -61,7 +63,7 @@ public class BossStateMachine : MonoBehaviour
         if (basicAttackCount >= 2)
         {
             basicAttackCount = 0; // Reiniciar el contador
-            ChangeState(new SpecialAttackState(this, boss, player, projectilePrefab, firePoint));
+            ChangeState(new SpecialAttackState(this, bossPrefab, player, projectilePrefab, firePoint));
         }
     }
 
