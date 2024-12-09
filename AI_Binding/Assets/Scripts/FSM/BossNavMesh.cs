@@ -8,6 +8,7 @@ public class BossNavMesh : MonoBehaviour
     [SerializeField] private float activeDuration = 10f;
     [SerializeField] private float restDuration = 2f; // Tiempo de descanso al estar cansado
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject winObject;
 
     private Renderer renderer;
     private NavMeshAgent agent;
@@ -15,6 +16,7 @@ public class BossNavMesh : MonoBehaviour
     private float restTimer;
     private bool isTired = false;
     private bool isResting = false;
+    private float defeatTimer = 2f;
 
     public int health = 6;
 
@@ -41,6 +43,11 @@ public class BossNavMesh : MonoBehaviour
         }
 
         stateTimer = activeDuration;
+
+        if (winObject != null)
+        {
+            winObject.SetActive(false); // Asegurarse de que esté desactivado al inicio
+        }
     }
 
     void Update()
@@ -48,9 +55,9 @@ public class BossNavMesh : MonoBehaviour
 
         if (player == null || agent == null)
             return;
-        
+
         if (health > 0)
-        {//a
+        {
             RotateTowardsPlayer();
 
             if (isTired)
@@ -69,19 +76,19 @@ public class BossNavMesh : MonoBehaviour
     }
 
     void RotateTowardsPlayer()
-{
-    Vector3 directionToPlayer = player.transform.position - transform.position;
-    if (directionToPlayer.x > 0)
     {
-        // Player is to the left
-        transform.rotation = Quaternion.Euler(0, 180, 0);
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        if (directionToPlayer.x > 0)
+        {
+            // Player is to the left
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (directionToPlayer.x <= 0)
+        {
+            // Player is to the right
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
-    else if (directionToPlayer.x <= 0)
-    {
-        // Player is to the right
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-    }
-}
 
     void HandleTiredState()
     {
@@ -161,7 +168,17 @@ public class BossNavMesh : MonoBehaviour
                 Debug.Log("Boss defeated!");
                 animator.SetBool("IsHurt", false);
                 animator.SetBool("IsDead", true);
+
+                HandleDefeat();
             }
         }
+    }
+
+    void HandleDefeat()
+    {
+        agent.isStopped = true;
+
+        defeatTimer -= Time.deltaTime;
+        winObject.SetActive(true);
     }
 }

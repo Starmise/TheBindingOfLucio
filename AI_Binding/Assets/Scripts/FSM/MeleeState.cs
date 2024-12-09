@@ -65,20 +65,22 @@ public class MeleeState : MonoBehaviour
 
     public void Update()
     {
-
-        switch (_meleeSubstate)
+        if (animator.GetBool("IsDead") != true)
         {
-            case MeleeSubstate.BasicAttack:
-                HandleBasicAttack(owner);
-                break;
+            switch (_meleeSubstate)
+            {
+                case MeleeSubstate.BasicAttack:
+                    HandleBasicAttack(owner);
+                    break;
 
-            case MeleeSubstate.Dash:
-                HandleDashAttack(owner);
-                break;
+                case MeleeSubstate.Dash:
+                    HandleDashAttack(owner);
+                    break;
 
-            case MeleeSubstate.AreaAttack:
-                HandleAreaAttack(owner);
-                break;
+                case MeleeSubstate.AreaAttack:
+                    HandleAreaAttack(owner);
+                    break;
+            }
         }
     }
 
