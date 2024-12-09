@@ -22,15 +22,11 @@ public class Health : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Reduce la salud cuando hay una colisión
-    void OnCollisionEnter2D(Collision2D collision)
+    // Reduce la salud cuando hay una colisiï¿½n
+    public void DamagePlayer(int damage)
     {
-        // Verifica si la colisión es con un objeto enemigo
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
             // Reduce la salud del jugador
-            health--;
-
+            health = health - damage;
             // Se inicia el couroutine para que el jugador cambie de color
             StartCoroutine(FlashHexColor("#EC6262"));
 
@@ -41,7 +37,6 @@ public class Health : MonoBehaviour
             }
 
             UpdateHearts();
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -70,14 +65,14 @@ public class Health : MonoBehaviour
         {
             if (i < health)
             {
-                hearts[i].sprite = fullHeart;  // Corazón lleno si la salud es mayor
+                hearts[i].sprite = fullHeart;  // Corazï¿½n lleno si la salud es mayor
             }
             else
             {
-                hearts[i].sprite = emptyHeart; // Corazón vacío si la salud es menor
+                hearts[i].sprite = emptyHeart; // Corazï¿½n vacï¿½o si la salud es menor
             }
 
-            // Controla la visibilidad de los corazones según el número máximo de corazones
+            // Controla la visibilidad de los corazones segï¿½n el nï¿½mero mï¿½ximo de corazones
             if (i < numOfHearts)
             {
                 hearts[i].enabled = true;
@@ -89,7 +84,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    // Método para actualizar constantemente el número de corazones (opcional)
+    // Mï¿½todo para actualizar constantemente el nï¿½mero de corazones (opcional)
     void Update()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

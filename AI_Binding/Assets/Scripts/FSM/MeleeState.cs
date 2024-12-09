@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeState : BaseState
+public class MeleeState : MonoBehaviour 
 {
     public enum MeleeSubstate
     {
@@ -12,136 +12,214 @@ public class MeleeState : BaseState
     }
 
     private MeleeSubstate _meleeSubstate = MeleeSubstate.BasicAttack; 
-    private List<MeleeSubstate> _substateHistory = new List<MeleeSubstate>(); // Historial de subestados para el seguimiento de los cambios.
-    private BaseEnemy owner; // Referencia al enemigo que posee el estado padre de papá (papá eres tú?).
-    private int BasicAttackCounter = 0; // Contador para rastrear cuántas veces se ha realizado el ataque básico.
-    private bool SubstateEntered = false; // Indica si el subestado ha sido ingresado.
+    private List<MeleeSubstate> _substateHistory = new List<MeleeSubstate>();
+    private BossEnemy owner;
+    private int basicAttackCount = 0;
+    private int dashAttackCount = 0;
+    private bool SubstateEntered = false;
+    public Collider2D attackRangeCollider; // Reference to the 2D Box Collider
+    public Animator animator;
 
-    public MeleeState()
+    public GameObject player;
+    public void OnEnter()
     {
-        Name = "Melee State";
-    }
-
-    public override void OnEnter()
-    {
-        base.OnEnter();
+        OnEnter();
         Setup();
     }
 
-    // Configura la referencia al dueño (el enemigo) del estado.
     public void Setup()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            Debug.LogError("Player GameObject with tag 'Player' not found.");
+            return;
+        }
+
+        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("Animator component is missing on the GameObject.");
+        }
+
         if (owner == null)
-            owner = ((EnemyFSM)FSMRef).Owner; // Se obtiene la referencia al enemigo desde nuestra máquina de estados
+        {
+            owner = GetComponent<BossEnemy>();
+            if (owner == null)
+            {
+                Debug.LogError("BossEnemy component is missing on the GameObject.");
+                return;
+            }
+        }
+
+        // Ensure the collider is correctly assigned
+        if (attackRangeCollider == null)
+        {
+            Debug.LogError("No Collider2D assigned for attack range.");
+        }
+        else if (!attackRangeCollider.isTrigger)
+        {
+            Debug.LogWarning("Collider2D for attack range is not set as a trigger.");
+        }
     }
 
-    // Maneja la lógica de los subestados: BasicAttack, Dash y AreaAttack.
-    public override void OnUpdate()
+    public void Update()
     {
-        base.OnUpdate();
-        BossEnemy bossOwner = (BossEnemy)owner; // Se hace un cast a BossEnemy para acceder a propiedades específicas.
 
         switch (_meleeSubstate)
         {
             case MeleeSubstate.BasicAttack:
-                if (!SubstateEntered)
-                {
-                    // El enemigo se mueve hacia la posición del jugador y reinicia el contador de ataques básicos
-                    SubstateEntered = true;
-                    owner.navMeshAgent.SetDestination(owner.PlayerRef.transform.position);
-                    BasicAttackCounter = 0;
-                }
-
-                // Verifica si el jugador está en el rango necesario pa el ataque básico.
-                if (owner.IsPlayerInRange(bossOwner.BasicAttackRange))
-                {
-                    BasicAttackCounter++;
-
-                    // Si se ha realizado el número de ataques básicos necesario, se pasa al subestado de Dash.
-                    if (BasicAttackCounter >= bossOwner.NumberOfBasicAttacksBeforeExit)
-                        GoToDashSubstate();
-                }
-
+                HandleBasicAttack(owner);
                 break;
 
             case MeleeSubstate.Dash:
-                if (!SubstateEntered)
-                {
-                    // El enemigo se mueve hacia la posición del jugador y se inicia la corrutina para realizar el ataque de dash.
-                    SubstateEntered = true;
-                    owner.navMeshAgent.SetDestination(owner.PlayerRef.transform.position);
-                    StartCoroutine(DashAttack());
-                }
+                HandleDashAttack(owner);
                 break;
 
             case MeleeSubstate.AreaAttack:
-                if (!SubstateEntered)
-                {
-                    SubstateEntered = true;
-
-                    // El enemigo se detiene para realizar el ataque de área.
-                    owner.navMeshAgent.SetDestination(owner.transform.position);
-                    StartCoroutine(AreaAttack());
-                }
+                HandleAreaAttack(owner);
                 break;
         }
     }
 
-    // Cambia el subestado actual al subestado de Dash y lo agrega al historial de subestados.
-    void GoToDashSubstate()
+    private void HandleBasicAttack(BossEnemy bossOwner)
+    {
+        if (IsPlayerInRange())
+        {
+            if (!SubstateEntered)
+            {
+                SubstateEntered = true;
+                StartCoroutine(BasicAttack());
+            }
+
+            if (basicAttackCount >= 2)
+            {
+                TransitionToSubstate(MeleeSubstate.Dash);
+            }
+        }
+    }
+
+    private void HandleDashAttack(BossEnemy bossOwner)
+    {
+        if (IsPlayerInRange())
+        {
+            if (!SubstateEntered && basicAttackCount >= 2) 
+            {
+                SubstateEntered = true;
+                StartCoroutine(DashAttack());
+            }
+
+            if (dashAttackCount >= 2)
+            {
+                TransitionToSubstate(MeleeSubstate.AreaAttack);
+            }
+        }
+    }
+
+    private void HandleAreaAttack(BossEnemy bossOwner)
+    {
+        if (IsPlayerInRange())
+        {
+            if (!SubstateEntered && dashAttackCount >= 2)
+            {
+                SubstateEntered = true;
+                StartCoroutine(AreaAttack());
+            }
+
+            TransitionToSubstate(MeleeSubstate.BasicAttack);
+            basicAttackCount = 0;
+            dashAttackCount = 0;
+        }
+    }
+
+    private void TransitionToSubstate(MeleeSubstate newSubstate)
     {
         _substateHistory.Add(_meleeSubstate);
-        _meleeSubstate = MeleeSubstate.Dash;
+        _meleeSubstate = newSubstate;
         SubstateEntered = false;
     }
 
-    // Realiza ataques dash durante cada cierto tiempo y pasa a la fase de cooldown.
+    private bool IsPlayerInRange()
+    {
+        if (attackRangeCollider == null || player == null)
+        {
+            Debug.LogWarning("Attack range collider or player GameObject is not assigned.");
+            return false;
+        }
+
+        // Check if the player's collider is overlapping with the attack range
+        Collider2D playerCollider = player.GetComponent<Collider2D>();
+        if (playerCollider == null)
+        {
+            Debug.LogWarning("Player does not have a Collider2D component.");
+            return false;
+        }
+
+        return attackRangeCollider.IsTouching(playerCollider);
+    }
+
+    IEnumerator BasicAttack()
+    {
+        if (animator == null)
+        {
+            Debug.LogError("Animator is not assigned.");
+            yield break;
+        }
+
+        animator.SetBool("IsMoving", false);
+        animator.SetBool("IsAttacking", true);
+        animator.Play("Attack_Melee");
+        if (player.TryGetComponent<Health>(out Health health))
+        {
+            health.DamagePlayer(1); 
+        }
+        yield return new WaitForSeconds(1);
+        animator.SetBool("IsAttacking", false);
+        animator.SetBool("IsMoving", true);
+        basicAttackCount++;
+        SubstateEntered = false; // Reset flag
+    }
+
     IEnumerator DashAttack()
     {
-        BossEnemy bossEnemy = (BossEnemy)owner;
-        int counter = 0;
-        int NumAttacks = Random.Range(1, 3); // Número aleatorio de ataques en el dash.
-        float TimeBetweenAttacks = bossEnemy.DashAttackTime / NumAttacks; // Tiempo entre el tiempo del tiempo de los ataques
-
-        while (counter < NumAttacks)
+        if (animator == null)
         {
-            yield return new WaitForSeconds(TimeBetweenAttacks + Random.Range(-TimeBetweenAttacks / 2.0f, TimeBetweenAttacks / 2));
-            counter++;
+            Debug.LogError("Animator is not assigned.");
+            yield break;
         }
 
-        // Después de completar los ataques, se inicia el cooldown.
-        StartCoroutine(Cooldown(bossEnemy.DashCooldownTime, "Melee Dash"));
+        animator.SetBool("IsMoving", false);
+        animator.SetBool("IsAttacking", true);
+        animator.Play("DashMelee");
+        if (player.TryGetComponent<Health>(out Health health))
+        {
+            health.DamagePlayer(1); 
+        }
+        yield return new WaitForSeconds(2);
+        animator.SetBool("IsAttacking", false);
+        animator.SetBool("IsMoving", true);
+        dashAttackCount++;
+        SubstateEntered = false; // Reset flag
     }
 
-    // Realiza ataques de area durante cada cierto tiempo y y pasa a la fase de cooldown.
     IEnumerator AreaAttack()
     {
-        BossEnemy bossEnemy = (BossEnemy)owner;
-        int counter = 0;
-        int NumAttacks = Random.Range(1, 2); // Número aleatorio de ataques en el área.
-        float TimeBetweenAttacks = bossEnemy.AreaAttackTime / NumAttacks;
-
-        while (counter < NumAttacks)
+        if (animator == null)
         {
-            yield return new WaitForSeconds(TimeBetweenAttacks + Random.Range(-TimeBetweenAttacks / 2.0f, TimeBetweenAttacks / 2));
-            counter++;
+            Debug.LogError("Animator is not assigned.");
+            yield break;
         }
 
-        StartCoroutine(Cooldown(bossEnemy.AreaAttackCooldownTime, "Melee Area attack"));
-    }
-
-    // Corrutina para manejar el tiempo de cooldown después de un subestado de ataque
-    IEnumerator Cooldown(float CooldownTime, string ActionOnCooldown)
-    {
-        yield return new WaitForSeconds(CooldownTime);
-        GoToSelectionState();
-    }
-
-    // Cambia al subestado de ataque básico después del cooldown.
-    void GoToSelectionState()
-    {
-        _substateHistory.Add(_meleeSubstate);
-        _meleeSubstate = MeleeSubstate.BasicAttack; // Transición de vuelta a BasicAttack porque pues debe regresar al loop
-        SubstateEntered = false;
+        animator.SetBool("IsMoving", false);
+        animator.SetBool("IsAttacking", true);
+        animator.Play("AreaMelee");
+        if (player.TryGetComponent<Health>(out Health health))
+        {
+            health.DamagePlayer(1); 
+        }
+        yield return new WaitForSeconds(2);
+        animator.SetBool("IsAttacking", false);
+        animator.SetBool("IsMoving", true);
+        SubstateEntered = false; // Reset flag
     }
 }

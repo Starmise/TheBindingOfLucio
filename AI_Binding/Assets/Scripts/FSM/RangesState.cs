@@ -91,12 +91,12 @@ public class RangesState : BaseState
         float timeBetweenAttacks = bossEnemy.BasicAttackTime / 2; // 2 proyectiles
         for (int i = 0; i < 2; i++)
         {
-            // Lógica para lanzar un proyectil hacia el jugador
+            // Lï¿½gica para lanzar un proyectil hacia el jugador
             owner.FireProjectile(owner.PlayerRef.transform.position);
             yield return new WaitForSeconds(timeBetweenAttacks);
         }
 
-        // Transición automática a AreaAttack después de 2 ataques básicos
+        // Transiciï¿½n automï¿½tica a AreaAttack despuï¿½s de 2 ataques bï¿½sicos
         GoToAreaAttackSubstate();
     }
 
@@ -107,12 +107,12 @@ public class RangesState : BaseState
         float timeBetweenAttacks = bossEnemy.AreaAttackTime / numberfanAttacks; // Ajuste de la cantidad de ataques
         for (int i = 0; i < numberfanAttacks; i++)
         {
-            // Lógica para lanzar un proyectil en abanico hacia el jugador
+            // Lï¿½gica para lanzar un proyectil en abanico hacia el jugador
             owner.FireFanAttack(owner.PlayerRef.transform.position);
             yield return new WaitForSeconds(timeBetweenAttacks);
         }
 
-        // Transición a Ultimate si se han realizado todos los ataques
+        // Transiciï¿½n a Ultimate si se han realizado todos los ataques
         if (BasicAttackCounter >= 2) // Verificar si se ha realizado la cantidad requerida de ataques
             GoToUltimateSubstate();
     }
@@ -127,11 +127,11 @@ public class RangesState : BaseState
     IEnumerator UltimateAttack()
     {
         BossEnemy bossEnemy = (BossEnemy)owner;
-        Vector2[] spawnPoints = GetRandomSpawnPoints(10); // Generar 10 puntos de aparición aleatorios
+        Vector2[] spawnPoints = GetRandomSpawnPoints(10); // Generar 10 puntos de apariciï¿½n aleatorios
 
         foreach (Vector2 point in spawnPoints)
         {
-            // Lógica para lanzar un proyectil grande en un punto específico
+            // Lï¿½gica para lanzar un proyectil grande en un punto especï¿½fico
             owner.FireLargeProjectile(point);
         }
 
@@ -148,7 +148,7 @@ public class RangesState : BaseState
         Vector2[] points = new Vector2[numPoints];
         for (int i = 0; i < numPoints; i++)
         {
-            float x = Random.Range(-10f, 10f); // Ajustar el rango según sea necesario
+            float x = Random.Range(-10f, 10f); // Ajustar el rango segï¿½n sea necesario
             float y = Random.Range(-10f, 10f);
             points[i] = new Vector2(x, y);
         }
@@ -159,7 +159,7 @@ public class RangesState : BaseState
     void GoToSelectionState()
     {
         _substateHistory.Add(_rangedSubstate);
-        _rangedSubstate = RangedSubstate.BasicAttack; // Transición de vuelta a BasicAttack por diseño
+        _rangedSubstate = RangedSubstate.BasicAttack; // Transiciï¿½n de vuelta a BasicAttack por diseï¿½o
         SubstateEntered = false;
     }
 }
