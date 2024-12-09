@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class SimplifiedBossNavMesh : MonoBehaviour
+public class BossNavMesh : MonoBehaviour
 {
-    [SerializeField] private Transform player; // Target del jugador
+    [SerializeField] public Transform player; // Target del jugador
     [SerializeField] private float tiredDuration = 5f;
     [SerializeField] private float activeDuration = 10f;
     [SerializeField] private float restDuration = 2f; // Tiempo de descanso al estar cansado
+    [SerializeField] private Animator animator;
 
     private Renderer renderer;
     private NavMeshAgent agent;
@@ -21,6 +22,7 @@ public class SimplifiedBossNavMesh : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         renderer = GetComponent<Renderer>();
+        animator = GetComponent<Animator>();
 
         if (agent == null)
         {
@@ -43,26 +45,48 @@ public class SimplifiedBossNavMesh : MonoBehaviour
 
     void Update()
     {
+
         if (player == null || agent == null)
             return;
+        
+        if (health > 0)
+        {
+            RotateTowardsPlayer();
 
-        if (isTired)
-        {
-            HandleTiredState();
-        }
-        else if (isResting)
-        {
-            HandleRestingState();
-        }
-        else
-        {
-            HandleActiveState();
+            if (isTired)
+            {
+                HandleTiredState();
+            }
+            else if (isResting)
+            {
+                HandleRestingState();
+            }
+            else
+            {
+                HandleActiveState();
+            }
         }
     }
+
+    void RotateTowardsPlayer()
+{
+    Vector3 directionToPlayer = player.transform.position - transform.position;
+    if (directionToPlayer.x > 0)
+    {
+        // Player is to the left
+        transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
+    else if (directionToPlayer.x <= 0)
+    {
+        // Player is to the right
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+}
 
     void HandleTiredState()
     {
         agent.isStopped = true;
+        animator.SetBool("IsMoving", false);
         stateTimer -= Time.deltaTime;
         VisualizeTiredState();
 
@@ -84,6 +108,7 @@ public class SimplifiedBossNavMesh : MonoBehaviour
             isResting = false;
             stateTimer = activeDuration;
         }
+
     }
 
     void HandleActiveState()
@@ -103,6 +128,7 @@ public class SimplifiedBossNavMesh : MonoBehaviour
 
         agent.isStopped = false;
         agent.SetDestination(player.position);
+        animator.SetBool("IsMoving", true);
     }
 
     void EnterTiredState()
@@ -129,9 +155,12 @@ public class SimplifiedBossNavMesh : MonoBehaviour
         {
             health--;
 
+            animator.SetBool("IsHurt", true);
             if (health <= 0)
             {
-                Destroy(gameObject);
+                Debug.Log("Boss defeated!");
+                animator.SetBool("IsHurt", false);
+                animator.SetBool("IsDead", true);
             }
         }
     }

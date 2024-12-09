@@ -26,7 +26,7 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
-    // Verificamos si el jugador está en el rango de visión
+    // Verificamos si el jugador estï¿½ en el rango de visiï¿½n
     public bool IsPlayerInRange(float range)
     {
         float distance = Vector3.Distance(transform.position, PlayerRef.transform.position);
@@ -37,31 +37,31 @@ public class BaseEnemy : MonoBehaviour
     // Korojefe le lanza la bolita de nieve al jugador
     public void FireProjectile(Vector3 targetPosition)
     {
-        // Lógica para instanciar y lanzar un proyectil hacia el targetPosition.
-        Debug.Log("Lanzando proyectil básico hacia " + targetPosition);
+        // Lï¿½gica para instanciar y lanzar un proyectil hacia el targetPosition.
+        Debug.Log("Lanzando proyectil bï¿½sico hacia " + targetPosition);
     }
 
     // Atque tipo abanico al jugador (Como los del Nier Automata :0)
     public void FireFanAttack(Vector3 targetPosition)
     {
-        // Aquí va la lógica para instanciar y lanzar un ataque en abanico.
+        // Aquï¿½ va la lï¿½gica para instanciar y lanzar un ataque en abanico.
         Debug.Log("Lanzando ataque en abanico hacia " + targetPosition);
     }
 
-    // Método para lanzar el Ultimate
+    // Mï¿½todo para lanzar el Ultimate
     public void FireLargeProjectile(Vector3 spawnPoint)
     {
-        // Aquí va la lógica para instanciar un proyectil grande en un punto de aparición.
+        // Aquï¿½ va la lï¿½gica para instanciar un proyectil grande en un punto de apariciï¿½n.
         Debug.Log("Activando el Ultimate en el " + spawnPoint);
     }
 
-    // Verifica si el jugador está en el lado horizontal del jefe
+    // Verifica si el jugador estï¿½ en el lado horizontal del jefe
     public bool IsPlayerOnHorizontalSide()
     {
         return Mathf.Abs(transform.position.x - PlayerRef.transform.position.x) > Mathf.Abs(transform.position.y - PlayerRef.transform.position.y);
     }
 
-    // Verifica si el jugador está en el lado vertical del jefe
+    // Verifica si el jugador estï¿½ en el lado vertical del jefe
     public bool IsPlayerOnVerticalSide()
     {
         return Mathf.Abs(transform.position.y - PlayerRef.transform.position.y) > Mathf.Abs(transform.position.x - PlayerRef.transform.position.x);

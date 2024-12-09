@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
         float shootHorizontal = Input.GetAxis("ShootHorizontal");
         float shootVertical = Input.GetAxis("ShootVertical");
 
-        // Comprobar si el jugador quiere disparar y el tiempo desde el último disparo.
+        // Comprobar si el jugador quiere disparar y el tiempo desde el ï¿½ltimo disparo.
         if ((shootHorizontal != 0 || shootVertical != 0) && Time.time > lastBullet + bulletDelay)
         {
             Shooting(shootHorizontal, shootVertical);
@@ -42,13 +42,13 @@ public class PlayerMovement : MonoBehaviour
 
         rigidbody.velocity = new Vector3(horizontal * speed, vertical * speed, 0);
 
-        // Actualizar el sprite según la dirección del disparo o del movimiento
+        // Actualizar el sprite segï¿½n la direcciï¿½n del disparo o del movimiento
         UpdateSpriteDirection(horizontal, vertical, shootHorizontal, shootVertical);
     }
 
     void Shooting(float x, float y)
     {
-        // "Instantiate" crea una copia de "bulletPrefab" en la posición y rotación actual.
+        // "Instantiate" crea una copia de "bulletPrefab" en la posiciï¿½n y rotaciï¿½n actual.
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
         bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
 
@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
                 spriteRenderer.sprite = spriteDown;
             }
         }
-        // Si no dispara, cambiar según el movimiento
+        // Si no dispara, cambiar segï¿½n el movimiento
         else
         {
             if (horizontal > 0)
