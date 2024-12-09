@@ -50,7 +50,7 @@ public class BossNavMesh : MonoBehaviour
             return;
         
         if (health > 0)
-        {
+        {//a
             RotateTowardsPlayer();
 
             if (isTired)
