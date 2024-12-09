@@ -600,7 +600,7 @@ MonoBehaviour:
   restDuration: 2
   animator: {fileID: 221228426}
   winObject: {fileID: 1086362805}
-  health: 2
+  health: 100
 --- !u!195 &221228430
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1142,11 +1142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3246194086033682145, guid: 78be2c812520b224f973bd302c2e796a, type: 3}
       propertyPath: health
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3246194086033682145, guid: 78be2c812520b224f973bd302c2e796a, type: 3}
       propertyPath: numOfHearts
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3246194086033682145, guid: 78be2c812520b224f973bd302c2e796a, type: 3}
       propertyPath: RestartSceen
