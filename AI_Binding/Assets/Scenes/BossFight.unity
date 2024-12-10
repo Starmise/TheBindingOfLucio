@@ -632,7 +632,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 221228422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4191dc84c15d104980d7e868345ef2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 24b6bd78a3d8e3b4c9566e9f037bb897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackRangeCollider: {fileID: 221228433}
@@ -1142,11 +1142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3246194086033682145, guid: 78be2c812520b224f973bd302c2e796a, type: 3}
       propertyPath: health
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3246194086033682145, guid: 78be2c812520b224f973bd302c2e796a, type: 3}
       propertyPath: numOfHearts
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3246194086033682145, guid: 78be2c812520b224f973bd302c2e796a, type: 3}
       propertyPath: RestartSceen
@@ -2181,6 +2181,57 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3627594202192682217, guid: 4e96a24bfaf0bc54eb2cbafeb35a71aa, type: 3}
   m_PrefabInstance: {fileID: 1964015734}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1151674588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1151674590}
+  - component: {fileID: 1151674591}
+  m_Layer: 0
+  m_Name: Ultimate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1151674590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151674588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1151674591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151674588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc704ccd612655441b2d64e7d912eebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowPrefab: {fileID: 3102342643031037734, guid: 3a180afe8bbbf794784dd6b52ff14edc, type: 3}
+  stalactitePrefab: {fileID: 1022033588314242138, guid: 578c1ca6d023ebf4a8331e2790591772, type: 3}
+  minSpawnRange: {x: -25, y: -25}
+  maxSpawnRange: {x: 25, y: 25}
+  numberOfPoints: 15
+  projectilePrefab: {fileID: 1022033588314242138, guid: 578c1ca6d023ebf4a8331e2790591772, type: 3}
+  attackInterval: 10
 --- !u!1 &1174696502
 GameObject:
   m_ObjectHideFlags: 0
@@ -4338,6 +4389,7 @@ SceneRoots:
   - {fileID: 7168531893948426054}
   - {fileID: 362686264}
   - {fileID: 221228424}
+  - {fileID: 1151674590}
   - {fileID: 901551738022872944}
   - {fileID: 1174696505}
   - {fileID: 1681488042}
